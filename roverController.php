@@ -34,12 +34,15 @@ class Rover {
 	public function checkCommands($cords, $commands, $direction){
 		if(!is_array($cords) || count($cords) < 2){
 			echo "Cords must be an Array of two possible Cords.<br />";
+			die;
 		}
 		if($commands == ""){
 			echo "No commands given. Rover can not move.<br />";
+			die;
 		}
 		if($direction == ""){
 			echo "No direction given. Rover can not move.<br />";
+			die;
 		}
 	}
 	

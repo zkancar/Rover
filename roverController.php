@@ -13,6 +13,9 @@ class Rover {
     }
 	
 	public function start($cords, $commands, $direction){
+		
+		$this->checkCommands($cords, $commands, $direction);
+		
 		$this->x = $cords[0];
         $this->y = $cords[1];
 
@@ -26,6 +29,18 @@ class Rover {
 		
 		$this->direction = $direction;
 		$this->move($commands);
+	}
+	
+	public function checkCommands($cords, $commands, $direction){
+		if(!is_array($cords) || count($cords) < 2){
+			echo "Cords must be an Array of two possible Cords.<br />";
+		}
+		if($commands == ""){
+			echo "No commands given. Rover can not move.<br />";
+		}
+		if($direction == ""){
+			echo "No direction given. Rover can not move.<br />";
+		}
 	}
 	
 	public function checkPositionInGrid($x, $y){
@@ -57,6 +72,7 @@ class Rover {
 				$this->setDirectionRight();
 			break;
 			default:
+				echo "Rover doesn't understand your command : (".$command.")<br />";
 			break;
 		}
 	}

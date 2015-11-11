@@ -2,7 +2,7 @@
 
 class Rover {
 	
-	private $grid;
+	private $grid = array(100,100);
 	private $x;
 	private $y;
 	private $direction;
@@ -26,6 +26,7 @@ class Rover {
 			$this->moveCommand($command);
 		}
 	}
+	
 	public function moveCommand($command){
 		switch($command){
 			case "f":
@@ -45,12 +46,52 @@ class Rover {
 		}
 	}
 	
+	
+	// Command forward North & East - Rover move upstairs on the grid
+	// East and West Moves downstairs on the grid
+	
 	public function moveForward(){
-		
+		if($this->direction == "N" || $this->direction == "E"){
+			$this->moveUpstairs();
+		}else{
+			$this->moveDownstairs();
+		}
 	}
+	
+	// Command backward South & West - Rover move upstairs on the grid
+	// East and West Moves downstairs on the grid
+	
 	public function moveBackward(){
-		
+		if($this->direction == "S" || $this->direction == "W"){
+			$this->moveUpstairs();
+		}else{
+			$this->moveDownstairs();
+		}
 	}		
+	
+	// Viewpoint North & South moves at the at the y angle up
+	// Viewpoint  East & West moves at the at the x angle up
+		
+	public function moveUpstairs(){
+		if($this->direction == "N" || $this->direction == "S"){
+			$this->y++;
+		}else{
+			$this->x++;
+		}
+	}
+	// Viewpoint North & South moves at the at the y angle down
+	// Viewpoint  East & West moves at the at the x angle down
+		
+	public function moveDownstairs(){
+		if($this->direction == "N" || $this->direction == "S"){
+			$this->y--;
+		}else{
+			$this->x--;
+		}
+	}	
+	
+	//Set Directions from array
+	//Rover rotates in circle left
 	
 	public function setDirectionLeft(){
 		$direction_key = array_search($this->direction, $this->directions);
@@ -60,6 +101,8 @@ class Rover {
 			$this->direction =  $this->directions[count($this->directions)-1];
 		}
 	}
+	
+	//Rover rotates in circle right
 	
 	public function setDirectionRight(){
 		$direction_key = array_search($this->direction, $this->directions);

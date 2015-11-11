@@ -6,6 +6,5 @@ include 'roverController.php';
 
 $rover = new Rover;
 
-$rover->start(array(1,1), 'ffrfffrffrbb', 'N');
-
+$rover->start(array(10,10), 'fflfffrffrbbfffffffffflfffffffffffffffff', 'N');
 ?>

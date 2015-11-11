@@ -15,9 +15,23 @@ class Rover {
 	public function start($cords, $commands, $direction){
 		$this->x = $cords[0];
         $this->y = $cords[1];
-		$this->direction = $direction;
+
+		try { 
+			$this->checkPositionInGrid($cords[0] , $cords[1] ). "<br />\n";
+			echo 'Rover starts at '.$this->__PositionToString();
+		} catch (Exception $e) { 
+			echo 'Caught Exception: ',  $e->getMessage(), "<br />\n";
+			die;
+		} 
 		
+		$this->direction = $direction;
 		$this->move($commands);
+	}
+	
+	public function checkPositionInGrid($x, $y){
+		if($x > $this->grid[0] || $y > $this->grid[1] || $x < 0 || $y < 0){
+			throw new Exception("Position out of grid, Rover stops at : (".$this->x.", ".$this->y.")<br />");
+		}
 	}
 	
 	public function move($commands){
@@ -25,6 +39,7 @@ class Rover {
 		foreach($commands as $command){
 			$this->moveCommand($command);
 		}
+		echo "Out of commands, Rover stops at : (".$this->x.", ".$this->y.")<br />";
 	}
 	
 	public function moveCommand($command){
@@ -74,21 +89,42 @@ class Rover {
 		
 	public function moveUpstairs(){
 		if($this->direction == "N" || $this->direction == "S"){
-			$this->y++;
+			$new_y = $this->y+1;
+			$new_x = $this->x;
 		}else{
-			$this->x++;
+			$new_y = $this->y;
+			$new_x = $this->x+1;
 		}
+		$this->possibleMove($new_x, $new_y);
 	}
 	// Viewpoint North & South moves at the at the y angle down
 	// Viewpoint  East & West moves at the at the x angle down
 		
 	public function moveDownstairs(){
 		if($this->direction == "N" || $this->direction == "S"){
-			$this->y--;
+			$new_y = $this->y-1;
+			$new_x = $this->x;
 		}else{
-			$this->x--;
+			$new_y = $this->y;
+			$new_x = $this->x-1;
 		}
+		
+		$this->possibleMove($new_x, $new_y);
+		
 	}	
+	
+	// Check if move is possible or out of Grid
+	public function possibleMove($x, $y){
+		try { 
+			$this->checkPositionInGrid($x, $y). "\n";
+			$this->x = $x;
+			$this->y = $y;
+			echo $this->__PositionToString();
+		} catch (Exception $e) { 
+			echo 'Caught Exception: ',  $e->getMessage(), "<br />\n"; 
+			die;
+		} 
+	}
 	
 	//Set Directions from array
 	//Rover rotates in circle left
@@ -100,6 +136,7 @@ class Rover {
 		}else{
 			$this->direction =  $this->directions[count($this->directions)-1];
 		}
+		echo $this->__DirectionToString();
 	}
 	
 	//Rover rotates in circle right
@@ -111,8 +148,18 @@ class Rover {
 		}else{
 			$this->direction = $this->directions[0];
 		}
+		echo $this->__DirectionToString();
 	}
-
+	
+    public function __PositionToString()
+    {
+        return sprintf('position: (%d, %d)<br />', $this->x, $this->y);
+    }
+	
+    public function __DirectionToString()
+    {
+        return sprintf('move to: (%s)<br />', $this->direction);
+    }
 }
 
 ?>
